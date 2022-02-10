@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hdf.blog.dao.dos.Archives;
 import com.hdf.blog.dao.mapper.ArticleBodyMapper;
 import com.hdf.blog.dao.mapper.ArticleMapper;
-//import com.hdf.blog.dao.mapper.ArticleTagMapper;
 import com.hdf.blog.dao.mapper.ArticleTagMapper;
 import com.hdf.blog.dao.pojo.Article;
 import com.hdf.blog.dao.pojo.ArticleBody;
-//import com.hdf.blog.dao.pojo.ArticleTag;
 import com.hdf.blog.dao.pojo.ArticleTag;
 import com.hdf.blog.dao.pojo.SysUser;
 import com.hdf.blog.service.*;
@@ -19,7 +17,6 @@ import com.hdf.blog.vo.ArticleBodyVo;
 import com.hdf.blog.vo.ArticleVo;
 import com.hdf.blog.vo.Result;
 import com.hdf.blog.vo.TagVo;
-//import com.hdf.blog.vo.params.ArticleParam;
 import com.hdf.blog.vo.params.ArticleParam;
 import com.hdf.blog.vo.params.PageParams;
 import org.apache.commons.lang3.StringUtils;
@@ -73,26 +70,26 @@ public class ArticleServiceImpl implements ArticleService {
 //         */
 //        Page<Article> page = new Page<>(pageParams.getPage(),pageParams.getPageSize());
 //        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-////        if (pageParams.getCategoryId() != null){
-////            // and category_id=#{categoryId}
-////            queryWrapper.eq(Article::getCategoryId,pageParams.getCategoryId());
-////        }
-////        List<Long> articleIdList = new ArrayList<>();
-////        if (pageParams.getTagId() != null){
-////            //加入标签 条件查询
-////            //article表中 并没有tag字段 一篇文章 有多个标签
-////            //article_tag  article_id 1 : n tag_id
-////            LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
-////            articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,pageParams.getTagId());
-////            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
-////            for (ArticleTag articleTag : articleTags) {
-////                articleIdList.add(articleTag.getArticleId());
-////            }
-////            if (articleIdList.size() > 0){
-////                // and id in(1,2,3)
-////                queryWrapper.in(Article::getId,articleIdList);
-////            }
-////        }
+//        if (pageParams.getCategoryId() != null){
+//            // and category_id=#{categoryId}
+//            queryWrapper.eq(Article::getCategoryId,pageParams.getCategoryId());
+//        }
+//        List<Long> articleIdList = new ArrayList<>();
+//        if (pageParams.getTagId() != null){
+//            //加入标签 条件查询
+//            //article表中 并没有tag字段 一篇文章 有多个标签
+//            //article_tag  article_id 1 : n tag_id
+//            LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+//            articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,pageParams.getTagId());
+//            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
+//            for (ArticleTag articleTag : articleTags) {
+//                articleIdList.add(articleTag.getArticleId());
+//            }
+//            if (articleIdList.size() > 0){
+//                // and id in(1,2,3)
+//                queryWrapper.in(Article::getId,articleIdList);
+//            }
+//        }
 //        //是否置顶进行排序
 //        //order by create_date desc
 //        queryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
@@ -210,16 +207,13 @@ public class ArticleServiceImpl implements ArticleService {
         List<ArticleVo> articleVoList = new ArrayList<>();
         for (Article record : records) {
             articleVoList.add(copy(record,isTag,isAuthor,false,false));
-//            articleVoList.add(copy(record));
         }
         return articleVoList;
     }
     private List<ArticleVo> copyList(List<Article> records, boolean isTag, boolean isAuthor, boolean isBody,boolean isCategory) {
-//    private List<ArticleVo> copyList(List<Article> records){
         List<ArticleVo> articleVoList = new ArrayList<>();
         for (Article record : records) {
             articleVoList.add(copy(record,isTag,isAuthor,isBody,isCategory));
-//            articleVoList.add(copy(record));
         }
         return articleVoList;
     }
@@ -229,13 +223,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     private ArticleVo copy(Article article, boolean isTag, boolean isAuthor, boolean isBody,boolean isCategory){
-//    private ArticleVo copy(Article article){
         ArticleVo articleVo = new ArticleVo();
         articleVo.setId(String.valueOf(article.getId()));
         BeanUtils.copyProperties(article,articleVo);
 
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
-//        //并不是所有的接口 都需要标签 ，作者信息
+        //并不是所有的接口 都需要标签 ，作者信息
         if (isTag){
             Long articleId = article.getId();
             articleVo.setTags(tagService.findTagsByArticleId(articleId));

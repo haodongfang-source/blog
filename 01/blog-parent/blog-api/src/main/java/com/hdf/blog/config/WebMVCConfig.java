@@ -17,6 +17,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 //        //跨域配置
 //        registry.addMapping("/**").allowedOrigins("https://blog.mszlu.com","http://localhost:8080");
+//        registry.addMapping("/**").allowedOrigins("https://blog.hdf.com");
         registry.addMapping("/**").allowedOrigins("http://localhost:8080");
     }
 
@@ -25,8 +26,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
         //拦截test接口，后续实际遇到需要拦截的接口时，在配置为真正的拦截接口
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/test")
-                .addPathPatterns("/comments/create/change");
-//                .addPathPatterns("/articles/publish");
+                .addPathPatterns("/comments/create/change")
+                .addPathPatterns("/articles/publish");
 //        registry.addInterceptor(loginInterceptor).addPathPatterns("/test");
     }
 }
